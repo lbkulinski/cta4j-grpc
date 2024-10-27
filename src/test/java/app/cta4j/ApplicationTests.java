@@ -1,4 +1,4 @@
-package net.lbku;
+package app.cta4j;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
