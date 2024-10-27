@@ -2,6 +2,12 @@ syntax = "proto3";
 
 package cta4j;
 
+option java_multiple_files = true;
+
+option java_package = "net.lbku.proto";
+
+option java_outer_classname = "Cta4jProto";
+
 // Train API
 message Train {
   int32 run = 1;
