@@ -2,6 +2,8 @@ package app.cta4j.service;
 
 import app.cta4j.jooq.Tables;
 import app.cta4j.proto.Station;
+import io.grpc.Status;
+import io.grpc.StatusException;
 import io.grpc.stub.StreamObserver;
 import app.cta4j.proto.Empty;
 import app.cta4j.proto.StationsResponse;
@@ -54,7 +56,9 @@ public final class StationService extends StationServiceGrpc.StationServiceImplB
 
             StationService.LOGGER.error(message, e);
 
-            responseObserver.onError(e);
+            StatusException internalException = new StatusException(Status.INTERNAL);
+
+            responseObserver.onError(internalException);
 
             return;
         }
