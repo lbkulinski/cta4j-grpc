@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package cta4j;
+
+// Train API
+message Train {
+  int32 run = 1;
+  string line = 2;
+  string destination = 3;
+  string station = 4;
+  string predictionTime = 5;
+  string arrivalTime = 6;
+  bool due = 7;
+  bool scheduled = 8;
+  bool delayed = 9;
+}
+
+message TrainStationsResponse {
+  repeated Train stations = 1;
+}
+
+service TrainService {
+  rpc GetUpcomingStations(TrainRequest) returns (TrainStationsResponse);
+}
+
+message TrainRequest {
+  int32 run = 1;
+}
+
+// Station API
+message Station {
+  int32 id = 1;
+  string name = 2;
+}
+
+message StationsResponse {
+  repeated Station stations = 1;
+}
+
+service StationService {
+  rpc GetStations(Empty) returns (StationsResponse);
+  rpc GetArrivals(StationArrivalsRequest) returns (TrainStationsResponse);
+}
+
+message StationArrivalsRequest {
+  int32 stationId = 1;
+}
+
+// Route API
+message Route {
+  string id = 1;
+  string name = 2;
+}
+
+message RoutesResponse {
+  repeated Route routes = 1;
+}
+
+message StopsResponse {
+  repeated Stop stops = 1;
+}
+
+message Stop {
+  int32 id = 1;
+  string name = 2;
+}
+
+service RouteService {
+  rpc GetRoutes(Empty) returns (RoutesResponse);
+  rpc GetDirections(RouteDirectionsRequest) returns (DirectionsResponse);
+  rpc GetStops(RouteStopsRequest) returns (StopsResponse);
+}
+
+message RouteDirectionsRequest {
+  string routeId = 1;
+}
+
+message DirectionsResponse {
+  repeated string directions = 1;
+}
+
+message RouteStopsRequest {
+  string routeId = 1;
+  string direction = 2;
+}
+
+// Bus API
+message Bus {
+  int32 id = 1;
+  string type = 2;
+  string stop = 3;
+  string route = 4;
+  string destination = 5;
+  string predictionTime = 6;
+  string arrivalTime = 7;
+  bool delayed = 8;
+}
+
+message BusesResponse {
+  repeated Bus buses = 1;
+}
+
+service BusService {
+  rpc GetUpcomingStops(BusRequest) returns (BusesResponse);
+}
+
+message BusRequest {
+  int32 id = 1;
+}
+
+message Empty {}
